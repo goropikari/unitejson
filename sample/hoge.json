@@ -1,0 +1,18 @@
+{
+	// hoge
+	"foo": 123, // hogehoge
+	"bar": 234,
+	"dict1": {
+		"a": "b"
+	},
+	"dict2": {
+		"c": "d",
+		"dict3": {
+			"alpha": "beta"
+		}
+	},
+	"arr": [
+		1,
+		2
+	]
+}
