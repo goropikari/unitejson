@@ -34,7 +34,12 @@ func main() {
 		files = append(files, removeComment(data))
 	}
 
-	unitefile, err := json.Marshal(UniteJson(files))
+	j, err := UniteJSON(files)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	unitefile, err := json.Marshal(j)
 	if err != nil {
 		log.Fatal(err)
 	}

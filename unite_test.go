@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestUniteJson(t *testing.T) {
@@ -44,6 +45,16 @@ func TestUniteJson(t *testing.T) {
 			},
 		},
 		{
+			name: "unite string to string slice",
+			input: [][]byte{
+				[]byte(`{"foo": "fuga"}`),
+				[]byte(`{"foo": ["hoge", "piyo"]}`),
+			},
+			expected: map[string]any{
+				"foo": []any{"hoge", "piyo"},
+			},
+		},
+		{
 			name: "unite empty json",
 			input: [][]byte{
 				[]byte(`{"foo": 123, "bar": 234}`),
@@ -60,8 +71,38 @@ func TestUniteJson(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got := UniteJson(tt.input)
+			got, err := UniteJSON(tt.input)
+			require.NoError(t, err)
 			assert.EqualValues(t, tt.expected, got)
+		})
+	}
+}
+
+func TestUniteJson_Error(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name     string
+		input    [][]byte
+		expected map[string]any
+	}{
+		{
+			name: "invalid json",
+			input: [][]byte{
+				[]byte(`{"foo": 123, "bar": 234,}`),
+			},
+			expected: map[string]any{
+				"foo": 123.0,
+				"bar": 234.0,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			_, err := UniteJSON(tt.input)
+			require.Error(t, err)
 		})
 	}
 }

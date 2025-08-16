@@ -1,0 +1,11 @@
+{
+  "name": "unitejson devcontainer",
+  "dockerFile": "Dockerfile",
+  "service": "app",
+  "workspaceFolder": "/workspaces/unitejson",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/goropikari/devcontainer-feature/neovim:1": {}
+  }
+}
